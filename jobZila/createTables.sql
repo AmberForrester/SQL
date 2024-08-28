@@ -1,0 +1,73 @@
+CREATE DATABASE JOBZILA
+
+use JOBZILA
+
+CREATE TABLE Roles (
+    RoleId INT PRIMARY KEY IDENTITY(1,1),
+    RoleName NVARCHAR(50) NOT NULL UNIQUE
+);
+
+
+CREATE TABLE Users (
+    UserId INT PRIMARY KEY IDENTITY(1,1),
+    Username NVARCHAR(50) NOT NULL UNIQUE,
+    Email NVARCHAR(100) NOT NULL UNIQUE,
+    PasswordHash NVARCHAR(255) NOT NULL,
+    FirstName NVARCHAR(50) NOT NULL,
+    LastName NVARCHAR(50) NOT NULL,
+    RoleId INT NOT NULL,
+    CreatedDate DATETIME NOT NULL DEFAULT GETDATE(),
+    FOREIGN KEY (RoleId) REFERENCES Roles(RoleId)
+);
+
+
+CREATE TABLE Jobs (
+    JobId INT PRIMARY KEY IDENTITY(1,1),
+    UserId INT NOT NULL,
+    Title NVARCHAR(100) NOT NULL,
+    Description NVARCHAR(MAX) NOT NULL,
+    Location NVARCHAR(100) NOT NULL,
+    Company NVARCHAR(100) NOT NULL,
+    SalaryRange NVARCHAR(50),
+    JobType NVARCHAR(50),
+    PostedDate DATETIME NOT NULL DEFAULT GETDATE(),
+    ExpiryDate DATETIME,
+    Status NVARCHAR(20) NOT NULL,
+    FOREIGN KEY (UserId) REFERENCES Users(UserId)
+);
+
+CREATE TABLE Applications (
+    ApplicationId INT PRIMARY KEY IDENTITY(1,1),
+    JobId INT NOT NULL,
+    UserId INT NOT NULL,
+    CoverLetter NVARCHAR(MAX),
+    ResumePath NVARCHAR(255),
+    AppliedDate DATETIME NOT NULL DEFAULT GETDATE(),
+    Status NVARCHAR(20) NOT NULL,
+    FOREIGN KEY (JobId) REFERENCES Jobs(JobId),
+    FOREIGN KEY (UserId) REFERENCES Users(UserId)
+);
+
+CREATE TABLE JobCategories (
+    CategoryId INT PRIMARY KEY IDENTITY(1,1),
+    CategoryName NVARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE JobCategoryMappings (
+    MappingId INT PRIMARY KEY IDENTITY(1,1),
+    JobId INT NOT NULL,
+    CategoryId INT NOT NULL,
+    FOREIGN KEY (JobId) REFERENCES Jobs(JobId),
+    FOREIGN KEY (CategoryId) REFERENCES JobCategories(CategoryId)
+);
+
+CREATE TABLE UserProfiles (
+    ProfileId INT PRIMARY KEY IDENTITY(1,1),
+    UserId INT NOT NULL,
+    PhoneNumber NVARCHAR(20),
+    Address NVARCHAR(255),
+    ResumePath NVARCHAR(255),
+    LinkedInProfile NVARCHAR(255),
+    ProfileSummary NVARCHAR(MAX),
+    FOREIGN KEY (UserId) REFERENCES Users(UserId)
+);
