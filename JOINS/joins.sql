@@ -41,8 +41,3 @@ select distinct p.ProductModelID from SalesLT.Product p --119
 --SQL92
 select p.ProductID, p.Name as Product, m.Name as Model from SalesLT.Product as p join SalesLT.ProductModel m on m.productModelID = p.ProductModelID
 order by 1 --295
-
-
-
--- Inner JOIN: finding records that match both tables
--- Most frequent join
