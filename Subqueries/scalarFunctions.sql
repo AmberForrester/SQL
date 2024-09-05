@@ -1,2 +1,0 @@
--- Applied on each individual rows 
--- GETDATE() when the query will run it will apply to each row 
