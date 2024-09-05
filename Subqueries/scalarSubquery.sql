@@ -40,6 +40,8 @@ WHERE custid IN (
 
 --Subquery: can bloat the query 
 	-- important when bringing some data from one table and bring that data to check in another table. 
+
+	--Multivalued Query using IN
 	select sum(od.qty*od.unitprice) from sales.OrderDetails od 
 	where od.orderid
 	in (
